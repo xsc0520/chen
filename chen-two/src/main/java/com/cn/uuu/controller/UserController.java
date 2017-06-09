@@ -2,6 +2,8 @@ package com.cn.uuu.controller;
 
 
 
+import java.lang.reflect.Field;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -88,6 +90,18 @@ public class UserController {
 	}
 
 	
+public static void main(String[] args) throws Exception {
+	String s = "abd";
+	method(s);
+	System.out.println(s);
+}
+
+private static void method(String s) throws Exception {
+	Field field = String.class.getDeclaredField("value");
+    field.setAccessible(true);
+    field.set(s, "bcd".toCharArray());
+	
+}
 
 
 	
