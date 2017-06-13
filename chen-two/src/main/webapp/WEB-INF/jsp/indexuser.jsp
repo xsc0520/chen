@@ -6,6 +6,10 @@
   </head>
   
   <body>
-    ${user.username}
+    您好：：：：：${user.username}
+    
+    <a href="helloworld">test @RequestMapping</a>
+    
+    
   </body>
 </html>

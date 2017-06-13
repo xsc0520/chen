@@ -3,6 +3,9 @@ package com.cn.uuu.controller;
 
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -10,11 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cn.uuu.pojo.People;
 import com.cn.uuu.pojo.User;
 import com.cn.uuu.service.UserService;
 
@@ -35,8 +43,83 @@ public class UserController {
 		this.userService = userService;
 	}
 
-
-	@RequestMapping(value="/showuser.do", method = RequestMethod.POST)
+	@RequestMapping("/testRedirect")
+	public String testRedirect(){
+	System.out.println("testRedirect");
+	return "redirect:/index.jsp";
+	//return "forward:/index.jsp";
+	}
+	
+	@RequestMapping("/testforward")
+	public String testforward(){
+	System.out.println("testforwardt");
+//	return "redirect:/index.jsp";
+	return "forward:/index.jsp";
+	}
+	
+	@RequestMapping("/testModelAttribute")
+	public String testModelAttribute(People user){
+	System.out.println("user="+user);
+	return "success";
+	}
+	
+	@ModelAttribute
+	public void getUser(@RequestParam(value="id",required=false) Integer id,Map<String,Object> map){
+		if(id!=null){
+		//模拟从数据库中获取到的user对象
+			People user = new People(1,"xi","123@qq.com",18);
+			System.out.println("从数据库中查询的对象：user="+user );
+			map.put("user", user);
+		}
+	}
+	
+	@RequestMapping("testMap")
+	public String testMap(Map<String,Object> map){ //【重点】
+	System.out.println(map.getClass().getName());
+	//org.springframework.validation.support.BindingAwareModelMap
+	map.put("names", Arrays.asList("Tom","Jerry","Kite"));
+	return "testModelAndView";
+	}
+	
+	
+	@RequestMapping("/testModelAndView")
+		public ModelAndView testModelAndView(){
+		System.out.println("testModelAndView");
+		String viewName = "testModelAndView";
+		ModelAndView mv = new ModelAndView(viewName );
+		mv.addObject("time",new Date().toString()); //实质上存放到request域中 
+		return mv;
+	}
+	
+	
+	//testPOJO
+	@RequestMapping(value="/testPOJO")
+	public String getPolog(People people){
+		System.out.println("People：：：" + people);
+		return "redirect:/springmvc/helloworld";
+	}
+	
+	@RequestMapping(value="/redirect2")
+	public String redirect2(@RequestParam("name") String username
+						   ,@RequestParam("pass") String pass
+						   ,@RequestParam("time") String time){
+		System.out.println(username);
+		System.out.println("pass:"+pass);
+		System.out.println("time:"+time);
+		return "redirect:/springmvc/helloworld";
+	}
+	@RequestMapping(value="/redirect2/{name}/{pass}")
+	public String redirect2(@PathVariable("name") String name01,@PathVariable("pass") String pass){
+		System.out.println("name01"+name01);
+		System.out.println("pass:"+pass);
+		return "redirect:/springmvc/helloworld";
+	}
+	
+	@RequestMapping(value="/helloworld")
+	public String helloworld(){
+		return "success";
+	}
+	@RequestMapping(value="/showuser", method = RequestMethod.POST)
 	public String toIndex(HttpServletRequest request,Model model){
 		User userLogin=new User();
 		userLogin.setUsername(request.getParameter("username"));
@@ -59,7 +142,7 @@ public class UserController {
 	
 	
 	
-	@RequestMapping(value="/register.do",method= RequestMethod.POST)
+	@RequestMapping(value="/register",method= RequestMethod.POST)
 	public String registerIndex(HttpServletRequest request,Model model){
 		
 		//ModelAndView mav=new ModelAndView();
@@ -88,22 +171,4 @@ public class UserController {
 		
 	    return "indexuser";
 	}
-
-	
-public static void main(String[] args) throws Exception {
-	String s = "abd";
-	method(s);
-	System.out.println(s);
-}
-
-private static void method(String s) throws Exception {
-	Field field = String.class.getDeclaredField("value");
-    field.setAccessible(true);
-    field.set(s, "bcd".toCharArray());
-	
-}
-
-
-	
-	
 }
