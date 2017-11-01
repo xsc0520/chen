@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,6 +33,13 @@ import com.cn.uuu.service.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	
+    private static Logger logger = Logger.getLogger("xi.logger");  
+  
+    public  String getURL(){  
+        logger.info("getURL() ... ");  
+        return null;  
+    }  
 	
 	@Resource(name="userServiceImpl")
 	private UserService userService;
@@ -78,6 +87,10 @@ public class UserController {
 	System.out.println(map.getClass().getName());
 	//org.springframework.validation.support.BindingAwareModelMap
 	map.put("names", Arrays.asList("Tom","Jerry","Kite"));
+	logger.info("自定义日孩子+++++++++++++++++++++++++++++++++++");
+	logger.info("自定义日孩子+++++++++++++++++++++++++++++++++++");
+	logger.info("自定义日孩子+++++++++++++++++++++++++++++++++++");
+	logger.info("自定义日孩子+++++++++++++++++++++++++++++++++++");
 	return "testModelAndView";
 	}
 	
@@ -117,15 +130,23 @@ public class UserController {
 	
 	@RequestMapping(value="/helloworld")
 	public String helloworld(){
+		logger.info("自定义日孩子+++++++++++++++++++++++++++++++++++");
+
 		return "success";
 	}
 	@RequestMapping(value="/showuser", method = RequestMethod.POST)
 	public String toIndex(HttpServletRequest request,Model model){
+		
+		String remoteAddr = request.getLocalAddr();
+		MDC.put("ip", remoteAddr);
+		int remotePort = request.getLocalPort();
+		MDC.put("port", remotePort);
 		User userLogin=new User();
 		userLogin.setUsername(request.getParameter("username"));
 		userLogin.setPassword(request.getParameter("password"));
 		
 		 User user=new User();
+			logger.info("自定义日孩子+++++++++++++++++++++++++++++++++++");
 
 		if(this.userService.getLoginUser(userLogin)){
           user=this.userService.getUserByusername(userLogin.getUsername());
@@ -146,6 +167,7 @@ public class UserController {
 	public String registerIndex(HttpServletRequest request,Model model){
 		
 		//ModelAndView mav=new ModelAndView();
+		logger.info("自定义日孩子+++++++++++++++++++++++++++++++++++");
 
 		User userRegister=new User();
 		String username2=request.getParameter("username");
@@ -170,5 +192,20 @@ public class UserController {
         model.addAttribute("user", user);
 		
 	    return "indexuser";
+	}
+	
+	public static void main(String[] args) {
+		Boolean flag = true;
+		for (int i = 2; i < 100; i++) {
+			for (int j = 2; j <= Math.sqrt(i); j++) {
+				if(i%j == 0){
+					flag = false;
+				}
+			}
+			if(flag == true){
+				System.out.println(i);
+			}
+			flag = true;
+		}
 	}
 }
