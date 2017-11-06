@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script  src="../js/jquery-3.2.1.js"></script>
+<script type="text/javascript">
+	var contextPath = "/chen-two";
+   $(function(){
+	 $.ajax({
+		"type":"post",
+		"dataType":"json",
+	 	"data":{"temp":(new Date()).getTime()},
+	 	"url":contextPath+"/springmvc/test.do?timestamp="+new Date().getTime(),
+	 	"asynv":true, 
+	 	"success":function(data){
+	 		
+	 		/* var mod = data.model;
+	 		
+	 		var peo = mod.person; */
+	 		alert(data.model.person);
+	 		
+
+	 		$("#loading_index1").hide();
+	 	},
+	 	"error":function(XMLHttpRequest,textStatus,errorThrown){
+	 		 alert(XMLHttpRequest.status);
+             alert(XMLHttpRequest.readyState);
+             alert(textStatus);
+	 		$("#loading_index").hide();
+	 	}
+	 })
+   })
+   </script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="x_1 none" id="loading_index">
+		<p >数据加载中</p>
+	</div>
+	<div class="x_1 none" id="loading_index1">
+		<p >数据加载中1</p>
+	</div>
+</body>
+</html>

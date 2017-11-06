@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<script>
+		function getQueryString(name){
+			var reg = new RegExp("(^|&)"+name+"=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r!=null){
+				return unescape(r[2]);
+			}else{
+				return null;
+			}
+		}
+		var now = new Date();
+		
+		var encryptStr = getQueryString("encryptStr");
+		alert(encryptStr);
+		document.cookie = 'pro_encryptStr='+encodeURI(encryptStr,'utf-8')+';path=/'
+		var url = 'index.html?timestamp='+now.getFullYear()+""+(now.getMonth()+1)+""+now.getDate()+""+now.getHours();
+		window.location.href = url;
+	</script>
+</head>
+<body>
+
+</body>
+</html>
