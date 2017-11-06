@@ -1,14 +1,20 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <html>
-
-<script  src="js/jquery-2.1.1.min.js"></script>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.2.1.js"></script>
+<!-- <script  src="js/jquery-3.2.1.js"></script> -->
 <script type="text/javascript">
-   function testUser(){
-	    var user_name=$("#username").attr("value");
-	    if(null == user_name){
-	    	document.getElementById('user_error').value = "请输入用户名";
-	    }
-   }
+$(document).ready(function(){
+	  $("button").click(function(){
+		  alert(1);
+		   var  s = $("#username").val();
+		   alert(s);
+	  });
+	});
+
   </script>
 <body>
 <h2>Hello World!我们都是好孩子</h2>
@@ -20,8 +26,8 @@
 </tr>
 <tr>
     <td > 用户名</td>
-    <td > <input type="text" name="username" id="username" size="10"></td>
-    <a id = "user_error"></a>
+    <td > <input type="text" name="username" id="username" size="10" value="xxx"></td>
+    <spqn id = "user_error"></span>
 </tr>
 
 <tr>
@@ -30,7 +36,7 @@
 </tr>
 
 <tr>
-     <td colspan ="2"> <input type="submit" name="submit" value="登录">
+     <td colspan ="2"> <input type="submit" name="submit" value="登录">  <button id = "btn1" onclick = "testUser()">yanz</button>
      <a href="user/register">注册新用户</a></td>
 </tr>
 
