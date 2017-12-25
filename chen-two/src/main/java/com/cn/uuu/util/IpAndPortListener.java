@@ -19,14 +19,12 @@ public class IpAndPortListener implements ServletRequestListener  {
 
 
 
-	@Override
 	public void requestDestroyed(ServletRequestEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
-	@Override
 	public void requestInitialized(ServletRequestEvent requestEvent) {
 		 if (!(requestEvent.getServletRequest() instanceof HttpServletRequest)) {
 	            throw new IllegalArgumentException(
