@@ -19,6 +19,7 @@ $(document).ready(function(){
 	});
 
   </script>
+  
   <script type="text/javascript">
      var websocket = null;
      //判断当前浏览器是否支持WebSocket
